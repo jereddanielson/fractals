@@ -68,13 +68,19 @@ const frag = `
   void main() {
     int max_iter = int(I);
     vec2 c = p + vPos * r, z = c;
+    vec2 zsqr = vec2(z.x * z.x, z.y * z.y);
     float n = 0.0;
     for (int i = 0; i < 500; i++) {
-      if(z.x*z.x+z.y*z.y > 4.0 || i > max_iter) {
+      if(zsqr.x + zsqr.y > 4.0 || i > max_iter) {
         n = float(i)/float(max_iter);
         break;
       }
-      z = vec2(z.x*z.x-z.y*z.y, 2.0*z.x*z.y) + c;
+      z.y = z.x * z.y;
+      z.y += z.y;
+      z.y += c.y;
+      z.x = zsqr.x - zsqr.y + c.x;
+      zsqr.x = z.x * z.x;
+      zsqr.y = z.y * z.y;
     }
     gl_FragColor = vec4(0.5-cos(n*17.0)/2.0,0.5-cos(n*13.0)/2.0,0.5-cos(n*23.0)/2.0,1.0);
   }
