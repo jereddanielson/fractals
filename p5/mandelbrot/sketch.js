@@ -1,8 +1,14 @@
-const max_iter = 100;
+let iterSlider;
 
 function setup() {
   smooth(4);
-  createCanvas(1200, 800);
+  createCanvas(300, 200);
+  iterSlider = createSlider(1, 100, 10);
+  iterSlider.parent(document.getElementById("inputs"));
+}
+
+function draw() {
+  const max_iter = iterSlider.value();
   background(0);
   loadPixels();
   for (let y = 0; y < height; y++) {
@@ -18,6 +24,7 @@ function setup() {
 }
 
 function calcMandelbrot(x, y) {
+  const max_iter = iterSlider.value();
   let z_r = 0;
   let z_i = 0;
 
